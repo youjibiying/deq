@@ -19,7 +19,6 @@ from lib.solvers import anderson, broyden
 from lib import radam
 from utils.exp_utils import create_exp_dir
 from utils.data_parallel import BalancedDataParallel
-from torch.utils.tensorboard import SummaryWriter
 
 
 parser = argparse.ArgumentParser(description='PyTorch DEQ Sequence Model')
@@ -204,6 +203,7 @@ timestamp = time.strftime('%Y%m%d-%H%M%S')
 if args.restart_dir:
     timestamp = args.restart_dir.split('/')[1]
 args.work_dir = os.path.join(args.work_dir, timestamp)
+args.name = timestamp
 if args.name == "N/A" and not args.debug:
     # If you find this too annoying, uncomment the following line and use timestamp as name.
     # args.name = timestamp
@@ -338,7 +338,8 @@ else:
 
 #### optimizer
 optimizer = getattr(optim if args.optim != 'RAdam' else radam, args.optim)(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-if not args.debug and not args.eval:
+if 0 and not args.debug and not args.eval:
+    from torch.utils.tensorboard import SummaryWriter
     writer = SummaryWriter(log_dir=f'log/{args.dataset}/deq_F{args.f_thres}_B{args.b_thres}', flush_secs=5)
 else:
     writer = None

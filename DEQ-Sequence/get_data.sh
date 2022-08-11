@@ -15,6 +15,8 @@ if [[ ! -d 'wikitext-103' ]]; then
     cd ..
 fi
 
+
+
 echo "- Downloading Penn Treebank (PTB)"
 if [[ ! -d 'penn' ]]; then
     wget --quiet --continue http://www.fit.vutbr.cz/~imikolov/rnnlm/simple-examples.tgz
